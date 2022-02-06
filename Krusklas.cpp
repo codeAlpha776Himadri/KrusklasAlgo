@@ -28,14 +28,24 @@ class setOperations
     
   public :
   
-    int findRoot(int u)             // Find Operation of disjoint set
+    int findRoot(int u) 
     {
-        int x = u ;
-        while (Set[x] > 0) 
+        if (u < Set.size() && u > 0) 
         {
-            x = Set[x] ;
+            int x = u , v = 0 ;
+            while (Set[x] > 0) 
+            {
+                x = Set[x] ;
+            }
+            
+            while (u != x) {    // Collapsing Find
+                v = Set[u] ;
+                Set[u] = x ;
+                u = v ;
+            }
+            
+            return x ;
         }
-        if (u < Set.size() && u > 0) { return x; }
         return INT_MAX ;
     }
     
