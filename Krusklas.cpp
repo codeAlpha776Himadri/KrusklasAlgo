@@ -4,21 +4,21 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define V 7 
-#define E 9 
+#define V 7   // Number of Vertices of Original Weighted Spanning Tree
+#define E 9   // Number of Edges of Original Weighted Spanning Tree
 
-vector<vector<int>> edge 
-{
+vector<vector<int>> edge        // Given Spanning Tree 
+{                               
     {1,1,2,6,2,5,7,5,3},        // Vertice 1 - 0th row
     {6,2,3,5,7,7,4,4,4},        // Vertice 2 - 1st row 
-    {5,25,12,20,10,18,14,16,8} // cost of edge between Vertice 1 and Vertice 2 - 2nd row
+    {5,25,12,20,10,18,14,16,8}  // cost of edge between Vertice 1 and Vertice 2 - 2nd row
 };
 
-vector<int> Included(V+2,0) ;
+vector<int> Included(V+2,0) ;   // Array to mark if an Edge is already included
 
-vector<int> Set(V+1,-1) ;
+vector<int> Set(V+1,-1) ;       // To check for cycles 
 
-vector<vector<int>> Solution(3,vector<int> (V+2)) ;
+vector<vector<int>> Solution(3,vector<int> (V+2)) ;  // Array to store Min cost edges
 
 class setOperations 
 {
@@ -28,7 +28,7 @@ class setOperations
     
   public :
   
-    int findRoot(int u) 
+    int findRoot(int u)             // Find Operation of disjoint set
     {
         int x = u ;
         while (Set[x] > 0) 
@@ -39,7 +39,7 @@ class setOperations
         return INT_MAX ;
     }
     
-    int performUnion(int u, int v) 
+    int performUnion(int u, int v) // Union Operation of disjoint set
     {
         if (findRoot(u) == findRoot(v)) 
         {
@@ -78,17 +78,17 @@ int main() {
         min = INT_MAX ;
         
         for (j = 0 ; j < e ; j++) {
-            if (Included[j]==0 && edge[2][j] < min) 
+            if (Included[j] == 0 && edge[2][j] < min)  // check if edge is already included and cost is less than already existing min cost edge
             {
-                min = edge[2][j] ;
-                k = j ;
+                min = edge[2][j] ;  // Set new min 
+                k = j ;             
                 u = edge[0][j] ;
                 v = edge[1][j] ;
                 c = edge[2][j] ;
             }
         }
         
-        if (S.performUnion(u,v)) 
+        if (S.performUnion(u,v))    // If cycle not found and union performed set the edge to solution array 
         {
             Solution[0][i] = u ;
             Solution[1][i] = v ;
@@ -96,11 +96,11 @@ int main() {
             i++ ;
         }
         
-        Included[k] = 1 ;
+        Included[k] = 1 ;           // Mark edge is included 
         
     }
     
-    for (i = 0 ; i < Solution.size() ; i++) 
+    for (i = 0 ; i < Solution.size() ; i++)  // display min cost edges and cost 
     {
         Solution[i].resize(V-1) ;
         for (j = 0 ; j < Solution[0].size() ; j++) 
@@ -112,7 +112,7 @@ int main() {
     
     for (i = 0 ; i < V-1 ; i++) 
     {
-        cost += Solution[2][i] ;
+        cost += Solution[2][i] ;              // Get total min cost 
     }
     
     cout<<"\nMinimun Cost of Edges : "<<cost<<endl;
